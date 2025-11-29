@@ -1,0 +1,10 @@
+torch
+torchvision
+torchaudio
+diffusers[torch]
+transformers
+accelerate
+safetensors
+streamlit
+Pillow
+numpy
