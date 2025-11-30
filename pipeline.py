@@ -15,28 +15,26 @@ os.makedirs(OUTPUT_METADATA, exist_ok=True)
 
 class TextToImageGenerator:
     def __init__(self, model_id="runwayml/stable-diffusion-v1-5", device=None):
-        self.model_id = model_id
 
-        # Detect device
-        if device:
-            self.device = device
-        else:
-            self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        # Detect device (CPU for you)
+        self.device = device if device else ("cuda" if torch.cuda.is_available() else "cpu")
 
-        # Load the pipeline
+        # Load pipeline – CORRECT WAY (NO meta tensors)
         self.pipe = StableDiffusionPipeline.from_pretrained(
             model_id,
-            torch_dtype=torch.float32,   # CPU friendly
-            safety_checker=None
+            torch_dtype=torch.float32,         # CPU safe
+            safety_checker=None,
+            low_cpu_mem_usage=True             # FIXES META-TENSOR ERROR
         )
 
-        # Move to device
-        self.pipe = self.pipe.to(self.device)
+        # Move to CPU (SAFE)
+        self.pipe.to(self.device)
 
-        # Use faster scheduler
-        self.pipe.scheduler = DPMSolverMultistepScheduler.from_config(self.pipe.scheduler.config)
+        # Fast scheduler
+        self.pipe.scheduler = DPMSolverMultistepScheduler.from_config(
+            self.pipe.scheduler.config
+        )
 
-    # 👉 THIS MUST BE OUTSIDE __init__
     def generate(
         self,
         prompt,
@@ -48,12 +46,11 @@ class TextToImageGenerator:
         width=512,
         seed=None
     ):
-        # Seed setup
         generator = None
         if seed is not None:
             generator = torch.Generator("cpu").manual_seed(seed)
 
-        # Run model
+        # Run diffusion
         result = self.pipe(
             prompt=[prompt] * num_images,
             negative_prompt=[negative_prompt] * num_images if negative_prompt else None,
