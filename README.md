@@ -1,190 +1,199 @@
-🖼️ AI-Powered Text-to-Image Generator
-Built using purely open-source models & frameworks
+<p align="center">
+  <img src="assets/banner.png" width="100%">
+</p>
 
-This project generates high-quality images from text prompts using Stable Diffusion and Hugging Face Diffusers.
-It includes a Streamlit-based web UI, image saving, metadata logging, and prompt engineering features.
+<p align="center">
+  <img src="https://img.shields.io/badge/Project-AI%20%2F%20Generative%20Model-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Framework-Streamlit-red?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Model-Stable%20Diffusion%201.5-green?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Library-Diffusers-yellow?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Python-3.9+-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" />
+</p>
 
-🚀 Project Overview
+# 🖼️ Text-to-Image Generator (Stable Diffusion 1.5)
+A fully **open-source text-to-image generator** built using **Stable Diffusion**, **PyTorch**, and a clean **Streamlit UI**.  
+Supports **CPU and GPU**, prompt engineering, negative prompts, style presets, and metadata storage.
 
-This system converts natural language descriptions into images using open-source text-to-image models.
+---
 
-The project demonstrates:
+# 🔥 Features
 
-Generative AI model usage
+### 🧠 AI Model  
+- Stable Diffusion 1.5 (open-source)  
+- Diffusers pipeline (HuggingFace)  
+- Works on **CPU fallback** and **GPU if available**
 
-Stable Diffusion pipelines
+### 🎨 Generation  
+- Text prompts  
+- Negative prompts  
+- Style presets (Photorealistic, Cartoon, Cyberpunk, Van Gogh)  
+- Multiple image generation  
+- Adjustable steps, guidance scale, resolution  
+- Metadata saved automatically
 
-Prompt engineering techniques
+### 🌐 Web UI  
+- Built with Streamlit  
+- Easy-to-use interface  
+- Download generated images  
+- Simple sliders + dropdown controls  
 
-Web-based user interface building
+---
 
-Local inference (CPU or GPU)
+# 📁 Folder Structure
 
-Image + metadata saving
+text-to-image-generator/
+│── app.py # Streamlit UI
+│── pipeline.py # Backend: Stable Diffusion generation
+│── requirements.txt # Dependencies
+│── README.md
+│
+│── utils/
+│ └── prompt_engineering.md # Prompt engineering guide
+│
+│── outputs/
+│ ├── images/ # Generated images
+│ └── metadata/ # Metadata for each image
+│
+│── models/ # (Optional) Model storage
+│
+└── assets/
+└── banner.png # Project banner
 
-🧠 Architecture
-User → Streamlit UI → Text Prompt
-     → pipeline.py (Stable Diffusion)
-     → Model Inference (CPU/GPU)
-     → Generated Images
-     → Saved to outputs/images + metadata
 
-Components:
+---
 
-app.py → UI & interaction
+# 🧠 Research Topics (Required by Project)
 
-pipeline.py → Model loader + generator
+### ✔ Generative Adversarial Networks (GANs)
+- Generator vs discriminator  
+- Why diffusion models outperform GANs for image generation  
 
-Stable Diffusion v1.5 (open-source)
+### ✔ Diffusion Models (Core of Stable Diffusion)
+- Forward noise process  
+- Reverse denoising  
+- Latent Diffusion Models (LDM)  
+- U-Net architecture  
+- CLIP text encoder  
 
-Diffusers → inference engine
+### ✔ Prompt Engineering  
+- Positive and negative prompts  
+- Style conditioning  
+- Quality boost keywords  
+- Avoiding artifacts  
 
-Torch → model execution
+---
 
-PIL → image handling
+# 🚀 Installation & Setup
 
-🛠️ Technology Stack
-Component	Technology
-Model	Stable Diffusion 1.5 (open-source)
-Framework	PyTorch
-Pipeline	HuggingFace Diffusers
-UI	Streamlit
-Image Processing	Pillow
-Metadata	JSON
-Deployment	Local machine (CPU/GPU)
-⚙️ Setup & Installation
-1. Clone the Repo
-git clone https://github.com/your-username/text-to-image-generator.git
+### 1️⃣ Clone the repository  
+```bash
+git clone https://github.com/Hello-H16/text-to-image-generator.git
 cd text-to-image-generator
-
-2. Create Virtual Environment
+2️⃣ Create Virtual Environment
 python -m venv venv
-venv\Scripts\activate  # Windows
+venv\Scripts\activate    # Windows
 # OR
-source venv/bin/activate  # Mac/Linux
+source venv/bin/activate # Mac/Linux
 
-3. Install Dependencies
+3️⃣ Install Dependencies
 pip install -r requirements.txt
 
-🧩 Model Download Instructions
+⚡ Hardware Support
+🔥 GPU (Preferred)
 
-Stable Diffusion automatically downloads via Hugging Face:
+If using NVIDIA GPU, install CUDA-enabled PyTorch:
 
-Model used:
-runwayml/stable-diffusion-v1-5
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
-No manual download required.
 
-🖥️ Hardware Requirements
+Benefits:
 
-✅ CPU Supported (slower)
-→ 5–12 minutes per 512×512 image
+10× faster
 
-✅ GPU Recommended
-→ 1–5 seconds per image (8GB+ VRAM recommended)
+FP16 inference
 
-Minimum:
+Larger image sizes
 
-8 GB RAM
+🧠 CPU (Fallback)
 
-Python 3.9+
+Stable Diffusion runs fully on CPU:
 
-Ideal:
+384×384 image → ~5–12 minutes
 
-NVIDIA GPU (RTX 2060/3060/4060 or better)
+512×512 → slower
 
-🎨 Usage Instructions
-Run the app:
+Recommended settings:
+
+Steps: 20–25
+
+Size: 384×384
+
+Guidance: 6–8
+
+No GPU required.
+
+🖥️ Running the App
 streamlit run app.py
 
-UI Features:
 
-Enter text prompt
+The app will open in your browser at:
 
-Add negative prompt
+http://localhost:8501
 
-Select number of images
+🎨 Sample Outputs
 
-Choose style (photorealistic, cartoon, etc.)
+(Add your sample images after first generation)
 
-Adjust steps, size, guidance scale
+<p align="center">
+  <img src="samples/sample1.png" width="45%">
+  <img src="samples/sample2.png" width="45%">
+</p>
 
-View & download generated images
+📦 Metadata Example
 
-Metadata auto-saved
-
-✍️ Example Prompts
-Realistic:
-a futuristic city at sunset, photorealistic, ultra-detailed, 4K
-
-Artistic:
-a robot painted in Van Gogh style, swirling brush strokes, vivid colors
-
-Cartoon:
-a cute cat riding a skateboard, cartoon, bold outlines
-
-🔧 Prompt Engineering Tips
-Improve quality:
-
-Add:
-highly detailed, 4K, ultra-sharp, dramatic lighting
-
-Style enhancement:
-
-photorealistic
-
-oil painting
-
-cyberpunk neon lights
-
-Negative prompts:
-blurry, lowres, bad anatomy, watermark, distorted
-
-📁 Output Structure
-
-Images saved in:
-
-outputs/images/
-
-
-Metadata saved in:
-
-outputs/metadata/
-
-
-Metadata example:
+Each generated image saves metadata:
 
 {
   "prompt": "a futuristic city at sunset",
+  "negative_prompt": "blurry",
   "steps": 25,
+  "guidance_scale": 7.5,
   "height": 512,
   "width": 512,
-  "timestamp": "2025-11-29",
-  "file": "outputs/images/xxxx.png"
+  "timestamp": "2025-03-01_134522",
+  "file": "outputs/images/20250301_134522.png"
 }
+
+🧪 Prompt Engineering Guide
+
+See:
+👉 utils/prompt_engineering.md
 
 🚧 Limitations
 
 CPU generation is slow
 
-Requires 8GB RAM minimum
+Requires internet for model download (first time)
 
-Quality depends on prompt clarity
+4GB+ model size
 
-Not trained on private or custom datasets
+More GPU = better performance
 
 🔮 Future Improvements
 
-Add image upscaling (RealESRGAN)
+ControlNet support
 
-Add custom training / LoRA fine-tuning
+Real-ESRGAN upscaling
 
-Add gallery page in UI
+LoRA fine-tuning
 
-Add style-transfer using ControlNet
+Gallery view in UI
 
-Add GPU container (Docker + CUDA)
+Style mixing slider
 
-📜 License
+📝 License
 
-This project uses only open-source models (Stable Diffusion) under the CreativeML OpenRAIL-M License.
+This project uses Stable Diffusion under the CreativeML OpenRAIL-M License.
+
+<p align="center"> Made with ❤️ by <b>Hemant Shetty</b> </p> ```
