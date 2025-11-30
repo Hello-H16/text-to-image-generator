@@ -1,4 +1,3 @@
-# pipeline.py
 import torch
 from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
 from PIL import Image
@@ -28,15 +27,16 @@ class TextToImageGenerator:
         self.pipe = StableDiffusionPipeline.from_pretrained(
             model_id,
             torch_dtype=torch.float32,   # CPU friendly
-            safety_checker=None          # Remove unnecessary checks for open-source
+            safety_checker=None
         )
 
-        # Use CPU
+        # Move to device
         self.pipe = self.pipe.to(self.device)
 
-        # Faster scheduler
+        # Use faster scheduler
         self.pipe.scheduler = DPMSolverMultistepScheduler.from_config(self.pipe.scheduler.config)
 
+    # 👉 THIS MUST BE OUTSIDE __init__
     def generate(
         self,
         prompt,
@@ -64,19 +64,17 @@ class TextToImageGenerator:
             generator=generator
         )
 
-        images = result.images  # list of PIL images
+        images = result.images
         metadata_paths = []
 
-        for i, img in enumerate(images):
+        for img in images:
             file_id = uuid.uuid4().hex[:8]
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"{timestamp}_{file_id}"
 
-            # Save PNG
             img_path = os.path.join(OUTPUT_IMAGES, f"{filename}.png")
             img.save(img_path)
 
-            # Save metadata
             metadata = {
                 "prompt": prompt,
                 "negative_prompt": negative_prompt,
@@ -92,3 +90,7 @@ class TextToImageGenerator:
             meta_path = os.path.join(OUTPUT_METADATA, f"{filename}.json")
             with open(meta_path, "w") as f:
                 json.dump(metadata, f, indent=4)
+
+            metadata_paths.append(meta_path)
+
+        return images, metadata_paths
