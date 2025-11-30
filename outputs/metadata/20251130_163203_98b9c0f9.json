@@ -1,0 +1,11 @@
+{
+    "prompt": "A futuristic city at sunset, highly detailed, 4K",
+    "negative_prompt": "blurry, low-quality, watermark",
+    "guidance_scale": 7.5,
+    "steps": 25,
+    "height": 512,
+    "width": 512,
+    "seed": null,
+    "timestamp": "20251130_163203",
+    "file": "outputs/images\\20251130_163203_98b9c0f9.png"
+}
